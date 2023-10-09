@@ -25,3 +25,15 @@ interpreter that manages our AirBnB objects.
 - What are `**kwargs` and how to use them
 - How to manage `datetime` module Python
 - How to handle named arguments
+
+# File Structure
+
+```
+├── README.md 		    --> the readme file containing some description about the project
+├────── models              --> contains all the attributes for the project
+│   ├── file.py 	    -->
+│   ├── file.py 	    -->
+│   └── file.py             -->
+├── tests     		    --> folder containing all the test models for the project
+    └── files.py 		-->
+```
