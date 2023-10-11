@@ -36,5 +36,8 @@ interpreter that manages our AirBnB objects.
 │   └── __init__.py
 ├── README.md
 └── tests
-    └── __init__.py
+    ├── __init__.py
+    └── test_models
+        ├── __init__.py
+        └── test_base_model.py
 ```
