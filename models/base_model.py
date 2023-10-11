@@ -44,3 +44,10 @@ class BaseModel:
     def save(self):
         """Updates self.updated_at with the current datetime"""
         self.updated_at = datetime.now()
+
+    def to_dict(self):
+        """
+        returns a dictionary containing all key/values of __dict__
+        of instance
+        """
+        pass
