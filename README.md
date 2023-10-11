@@ -29,11 +29,12 @@ interpreter that manages our AirBnB objects.
 # File Structure
 
 ```
-├── README.md 		    --> the readme file containing some description about the project
-├────── models              --> contains all the attributes for the project
-│   ├── file.py 	    -->
-│   ├── file.py 	    -->
-│   └── file.py             -->
-├── tests     		    --> folder containing all the test models for the project
-    └── files.py 		-->
+├── AUTHORS
+├── console.py
+├── models
+│   ├── base_model.py
+│   └── __init__.py
+├── README.md
+└── tests
+    └── __init__.py
 ```
