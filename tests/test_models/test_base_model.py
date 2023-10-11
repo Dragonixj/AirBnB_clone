@@ -40,3 +40,17 @@ class TestBaseModel(unittest.TestCase):
         """
         bm = BaseModel()
         self.assertTrue(str, type(bm.id))
+
+    def test_created_at_is_datetime(self):
+        """
+        Checks that attribute 'created_at' is a datetime object
+        """
+        bm = BaseModel()
+        self.assertTrue(datetime, type(bm.created_at))
+
+    def test_updated_at_is_datetime(self):
+        """
+        Checks that attribute 'updated_at' is a datetime object
+        """
+        bm = BaseModel()
+        self.assertTrue(datetime, type(bm.updated_at))
