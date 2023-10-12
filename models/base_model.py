@@ -18,18 +18,18 @@ class BaseModel:
             *args: list of arguments(Unused)
             **kwargs: dict that contains attribute values
         """
-        if kwargs is not None and kwargs != {}:
-            for key in kwargs:
-                if key == "created_at":
-                    self.__dict__["created_at"] = datetime.strptime(
-                        kwargs["created_at"], "%Y-%m-%dT%H:%M:%S.%f"
-                    )
-                elif key == "upadated_at":
-                    self.__dict__["updated_at"] = datetime.strptime(
-                        kwargs["updated_at"], "%Y-%m-%dT%H:%M:%S.%f"
-                    )
-                else:
-                    self.__dict__[key] = kwargs[key]
+        if kwargs:
+            # Initializes attributes from kwargs
+            for key, value in kwargs.items():
+                if key != "__class__":
+                    if key == "created_at" or key == "updated_at":
+                        setattr(
+                            self, key, datetime.strptime(
+                                value, "%Y-%m-%dT%H:%M:%S.%f")
+                        )
+                    else:
+                        setattr(self, key, value)
+
         else:
             # Initializes a new instance
             self.id = str(uuid.uuid4())
