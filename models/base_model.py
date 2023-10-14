@@ -39,7 +39,7 @@ class BaseModel:
         """Return the string representation
         [<class name>] (<self.id>) <self.__dict__>
         """
-        return "[{}] ({}) {}".format(type(self).__name__, self.id, self.__dict__)
+        return f"[{type(self).__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
         """Updates self.updated_at with the current datetime"""
