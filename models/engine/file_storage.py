@@ -3,8 +3,6 @@
 Contains the FileStorage class model
 """
 import json
-from models.base_model import BaseModel
-import os
 
 
 class FileStorage:
@@ -22,7 +20,7 @@ class FileStorage:
 
     def new(self, obj):
         """Sets in __objects the obj with key <obj class name>.id"""
-        key = "{}.{}".format(type(obj).__name__, obj.id)
+        key = f"{type(obj).__name__}.{obj.id}"
         self.__objects[key] = obj
 
     def save(self):
@@ -37,8 +35,11 @@ class FileStorage:
         """deserializes the JSON file to __objects(only if the JSON file(
         __file_path)exists)"""
         try:
-            with open(self.__file_path, encoding="utf-8") as f:
-                for obj in json.load(f).values():
-                    self.new(eval(obj["__class__"])(**obj))
+            with open(self.__file_path, "r", encoding="utf-8") as f:
+                obj = json.load(f)
+                for object in obj.values():
+                    name = object["__class__"]
+                    del object["__class__"]
+                    self.new(eval(name)(**object))
         except FileNotFoundError:
             return
