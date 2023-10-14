@@ -4,6 +4,7 @@ Contains the FileStorage class model
 """
 import json
 from models.base_model import BaseModel
+import os
 
 
 class FileStorage:
@@ -35,4 +36,9 @@ class FileStorage:
     def reload(self):
         """deserializes the JSON file to __objects(only if the JSON file(
         __file_path)exists)"""
-        pass
+        try:
+            with open(self.__file_path, encoding="utf-8") as f:
+                for obj in json.load(f).values():
+                    self.new(eval(obj["__class__"])(**obj))
+        except FileNotFoundError:
+            return
