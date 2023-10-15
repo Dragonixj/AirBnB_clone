@@ -1,11 +1,9 @@
 #!/usr/bin/python3
 """Contains the main entry point of the command interpreter"""
 import cmd
-import re
 import models
 
 from models.base_model import BaseModel
-from models.user import User
 from models import storage
 
 
@@ -77,6 +75,23 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     del storage.all()[key]
                     storage.save()
+
+    def do_all(self, line):
+        """Prints all the string representation of all instances"""
+        if line != "":
+            words = line.split(" ")
+            if words[0] not in storage.classes():
+                print("** class doesn't exist **")
+            else:
+                num_l = [
+                    str(obj)
+                    for key, obj in storage.all().items()
+                    if type(obj).__name__ == words[0]
+                ]
+                print(num_l)
+        else:
+            new_list = [str(obj) for key, obj in storage.all().items()]
+            print(new_list)
 
 
 if __name__ == "__main__":
