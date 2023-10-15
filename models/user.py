@@ -2,7 +2,6 @@
 """User class, subclass of parent BaseModel"""
 
 from models.base_model import BaseModel
-import json
 
 
 class User(BaseModel):
