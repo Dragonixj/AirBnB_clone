@@ -18,8 +18,7 @@ class TestBaseModel(unittest.TestCase):
         Checks if the string representation is correct
         """
         bm = BaseModel()
-        self.assertEqual(
-            str(bm), "[BaseModel] ({}) {}".format(bm.id, bm.__dict__))
+        self.assertEqual(str(bm), "[BaseModel] ({}) {}".format(bm.id, bm.__dict__))
 
     def test_if_BaseModel_instance_has_id(self):
         """Checks if id is assigned to instance during initialization"""
