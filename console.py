@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Contains the main entry point of the command interpreter"""
 import cmd
-import models
 
 from models.base_model import BaseModel
 from models import storage
@@ -12,7 +11,6 @@ class HBNBCommand(cmd.Cmd):
     for the AirBnB project"""
 
     prompt = "(hbnb)"
-    storage = models.storage
 
     def do_EOF(self, line):
         """Handles the End Of File signal"""
