@@ -29,18 +29,20 @@ interpreter that manages our AirBnB objects.
 # File Structure
 
 ```
-├── AUTHORS             --> the contributors file
-├── console.py          --> main entry point for the program
-├── models              --> contains all modules
-│   ├── base_model.py   --> contains the super class BaseModel
+├── AUTHORS
+├── console.py
+├── file.json
+├── models
+│   ├── base_model.py
 │   ├── engine
 │   │   ├── file_storage.py
 │   │   └── __init__.py
-│   └── __init__.py
+│   ├── __init__.py
+│   └── user.py
 ├── README.md
 └── tests
     ├── __init__.py
-    └── test_models     --> contains all test cases for all the modules
+    └── test_models
         ├── __init__.py
-        └── test_base_model.py  --> test for the base_model module
+        └── test_base_model.py
 ```
