@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Contains the main entry point of the command interpreter"""
 import cmd
+import re
 
 from models.base_model import BaseModel
 from models import storage
@@ -90,6 +91,33 @@ class HBNBCommand(cmd.Cmd):
         else:
             new_list = [str(obj) for key, obj in storage.all().items()]
             print(new_list)
+
+    def do_update(self, line):
+        """Updates an instance by adding or updating attributes"""
+        updates = line.split()
+        if len(line) == 0:
+            print("** class name missing **")
+            return
+        if updates[0] not in storage.classes().keys():
+            print("** class doesn't exist **")
+            return
+        elif len(updates) == 1:
+            print("** instance id missing **")
+            return
+        elif len(updates) == 2:
+            print("** attribute name missing **")
+            return
+        elif len(updates) == 3:
+            print("** value missing **")
+        else:
+            key = updates[0] + "." + updates[1]
+            all_instances = storage.all()
+            if key not in all_instances.keys():
+                print("** no instances found **")
+            else:
+                obj = all_instances[key]
+                setattr(obj, updates[2], updates[3])
+                storage.save()
 
 
 if __name__ == "__main__":
