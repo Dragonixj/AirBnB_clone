@@ -1,9 +1,7 @@
 #!/usr/bin/python3
 """Defines unittests for models/base_model.py"""
 import unittest
-import os
 from datetime import datetime
-import models
 from time import sleep
 from models.base_model import BaseModel
 
@@ -20,7 +18,7 @@ class TestBaseModel(unittest.TestCase):
         bm = BaseModel()
         self.assertEqual(str(bm), "[BaseModel] ({}) {}".format(bm.id, bm.__dict__))
 
-    def test_if_BaseModel_instance_has_id(self):
+    def test_if_base_odel_instance_has_id(self):
         """Checks if id is assigned to instance during initialization"""
         bm = BaseModel()
         self.assertTrue(hasattr(bm, "id"))
