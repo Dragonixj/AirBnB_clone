@@ -28,6 +28,7 @@ class TestBaseModel(unittest.TestCase):
         Checks if id is generated uniquely
         """
         bm1 = BaseModel()
+        sleep(0.05)
         bm2 = BaseModel()
         self.assertNotEqual(bm1.id, bm2.id)
 
