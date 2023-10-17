@@ -4,6 +4,7 @@ Contains the FileStorage class model
 """
 import json
 import os
+import datetime
 
 from models.user import User
 from models.city import City
@@ -65,3 +66,38 @@ class FileStorage:
                 k: self.classes()[v["__class__"]](**v) for k, v in obj_dict.items()
             }
             self.__objects = obj_dict
+
+    def attributes(self):
+        """method that returns the valid attributes
+        and their types for classname"""
+        attributes = {
+            "BaseModel": {
+                "id": str,
+                "created_at": datetime.datetime,
+                "updated_at": datetime.datetime,
+            },
+            "User": {
+                "email": str,
+                "password": str,
+                "first_name": str,
+                "last_name": str,
+            },
+            "State": {"name": str},
+            "City": {"state_id": str, "name": str},
+            "Amenity": {"name": str},
+            "Place": {
+                "city_id": str,
+                "user_id": str,
+                "name": str,
+                "description": str,
+                "number_rooms": int,
+                "number_bathrooms": int,
+                "max_guest": int,
+                "price_by_night": int,
+                "latitude": float,
+                "longitude": float,
+                "amenity_ids": list,
+            },
+            "Review": {"place_id": str, "user_id": str, "text": str},
+        }
+        return attributes

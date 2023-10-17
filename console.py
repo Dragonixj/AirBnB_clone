@@ -3,7 +3,7 @@
 import cmd
 import re
 
-from models.base_model import BaseModel
+# from models.base_model import BaseModel
 from models import storage
 
 
@@ -94,30 +94,61 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, line):
         """Updates an instance by adding or updating attributes"""
-        updates = line.split()
-        if len(line) == 0:
+        if line == "" or line is None:
             print("** class name missing **")
             return
-        if updates[0] not in storage.classes().keys():
+
+        rex = r'^(\S+)(?:\s(\S+)(?:\s(\S+)(?:\s((?:"[^"]*")|(?:(\S)+)))?)?)?'
+
+        match = re.search(rex, line)
+        classname = match.group(1)
+        uid = match.group(2)
+        attribute = match.group(3)
+        value = match.group(4)
+        if not match:
+            print("** class name missing **")
+        elif classname not in storage.classes():
             print("** class doesn't exist **")
-            return
-        elif len(updates) == 1:
+        elif uid is None:
             print("** instance id missing **")
-            return
-        elif len(updates) == 2:
-            print("** attribute name missing **")
-            return
-        elif len(updates) == 3:
-            print("** value missing **")
         else:
-            key = updates[0] + "." + updates[1]
-            all_instances = storage.all()
-            if key not in all_instances.keys():
-                print("** no instances found **")
+            key = f"{classname}.{uid}"
+            if key not in storage.all():
+                print("** no instance found **")
+            elif not attribute:
+                print("** attribute name missing **")
+            elif not value:
+                print("** value missing **")
             else:
-                obj = all_instances[key]
-                setattr(obj, updates[2], updates[3])
-                storage.save()
+                cast = None
+                if not re.search('^".*"$', value):
+                    if "." in value:
+                        cast = float
+                    else:
+                        cast = int
+                else:
+                    value = value.replace('"', "")
+                attributes = storage.attributes()[classname]
+                if attribute in attributes:
+                    value = attributes[attribute](value)
+                elif cast:
+                    try:
+                        value = cast(value)
+                    except ValueError:
+                        pass  # fine, stay a string then
+                setattr(storage.all()[key], attribute, value)
+                storage.all()[key].save()
+
+    def do_count(self, line):
+        """counts the number of instances of a class"""
+        words = line.split(" ")
+        if not words[0]:
+            print("** class name missing **")
+        elif words[0] not in storage.classes():
+            print("** class doesn't exist **")
+        else:
+            matched = [k for k in storage.all() if k.startwith(words[0] + ".")]
+            print(len(matched))
 
 
 if __name__ == "__main__":
