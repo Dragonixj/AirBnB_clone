@@ -3,8 +3,6 @@
 Contains the FileStorage class model
 """
 import json
-import os
-import datetime
 
 from models.user import User
 from models.city import City
@@ -19,10 +17,21 @@ class FileStorage:
     """
     serializes instances to a JSON file
     and deserializes JSON file to instances
+    Attributes:
+        classes - dictionary of all classes present
     """
 
     __file_path = "file.json"
     __objects = {}
+    classes = {
+        "BaseModel": BaseModel,
+        "User": User,
+        "Place": Place,
+        "Amenity": Amenity,
+        "City": City,
+        "Review": Review,
+        "State": State,
+    }
 
     def all(self):
         """returns the dictionary __objects"""
@@ -41,63 +50,14 @@ class FileStorage:
                 d_storage[key] = value.to_dict()
             json.dump(d_storage, f)
 
-    def classes(self):
-        """returns a dictionary of valid classes and their references"""
-
-        classes = {
-            "BaseModel": BaseModel,
-            "User": User,
-            "State": State,
-            "City": City,
-            "Amenity": Amenity,
-            "Place": Place,
-            "Review": Review,
-        }
-        return classes
-
     def reload(self):
         """deserializes the JSON file to __objects(only if the JSON file(
         __file_path)exists)"""
-        if not os.path.isfile(self.__file_path):
-            return
-        with open(self.__file_path, "r", encoding="utf-8") as f:
-            obj_dict = json.load(f)
-            obj_dict = {
-                k: self.classes()[v["__class__"]](**v) for k, v in obj_dict.items()
-            }
-            self.__objects = obj_dict
-
-    def attributes(self):
-        """method that returns the valid attributes
-        and their types for classname"""
-        attributes = {
-            "BaseModel": {
-                "id": str,
-                "created_at": datetime.datetime,
-                "updated_at": datetime.datetime,
-            },
-            "User": {
-                "email": str,
-                "password": str,
-                "first_name": str,
-                "last_name": str,
-            },
-            "State": {"name": str},
-            "City": {"state_id": str, "name": str},
-            "Amenity": {"name": str},
-            "Place": {
-                "city_id": str,
-                "user_id": str,
-                "name": str,
-                "description": str,
-                "number_rooms": int,
-                "number_bathrooms": int,
-                "max_guest": int,
-                "price_by_night": int,
-                "latitude": float,
-                "longitude": float,
-                "amenity_ids": list,
-            },
-            "Review": {"place_id": str, "user_id": str, "text": str},
-        }
-        return attributes
+        try:
+            with open(self.__file_path, "r", encoding="UTF-8") as f:
+                new_obj_dict = json.load(f)
+            for key, value in new_obj_dict.items():
+                obj = self.classes[value["__class__"]](**value)
+                self.__objects[key] = obj
+        except FileNotFoundError:
+            pass
