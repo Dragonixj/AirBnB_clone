@@ -99,7 +99,6 @@ class HBNBCommand(cmd.Cmd):
             return
 
         rex = r'^(\S+)(?:\s(\S+)(?:\s(\S+)(?:\s((?:"[^"]*")|(?:(\S)+)))?)?)?'
-
         match = re.search(rex, line)
         classname = match.group(1)
         uid = match.group(2)
